@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学习强国</title>
+    <link rel="icon" id="favicon" href="./favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./index.css">
+    <script src="qrcode.js"></script>
+    <style>
+        .wx {
+            font-size: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="login_content___2sv5t">
+                <div class="logo___3gfKF">
+                    <img class="logo___3gfKF" src="./xx.png">
+                </div>
+                <div id="qrcode">
+                <img id="img" src="#" alt="#" style="width:400px;height: 400px;margin: 25px auto;">
+                </div>
+                <div id="wx" class="wx"></div>
+                <div>
+                <a id="login" href="#" class="myButton">点击登录跳转学习强国</a>
+                </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        function load() {
+            let search = window.location.search;
+            search = search.substring(1, search.length);
+            document.getElementById("login").setAttribute("href", "dtxuexi://appclient/page/study_feeds?url=" + search);
+            console.log(unescape(search));
+            let imgBase64 = jrQrcode.getQrBase64(unescape(search), {});
+            document.getElementById("img").setAttribute("src", imgBase64);
+            document.getElementById("login");
+        }
+
+        function isWechat() {
+            return /MicroMessenger/i.test(window.navigator.userAgent);
+        }
+
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+        }
+
+        if (isMobile() && !isWechat()) {
+            document.getElementById("login").style.display = "flex";
+            document.getElementById("wx").innerText = "";
+        } else if (isWechat() && isMobile()) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("wx").innerText = "注意：当前为微信环境，只支持扫码登录，若想跳转app，请点击右上角选择浏览器打开";
+        }  else if(!isMobile()) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("wx").innerText = "注意：检测到当前浏览器为电脑浏览器，当前模式下只支持扫码登录";
+        }
+        
+
+        load();
+    </script>
+</body>
+</html>
